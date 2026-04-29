@@ -60,7 +60,21 @@ topic-name/
 You'll need Python installed. If you don't have it yet:
 👉 [Download Python](https://www.python.org/downloads/) (get the latest 3.x version)
 
-Most tutorials use a handful of common libraries. Install them once and you're set:
+**Best practice — use a virtual environment.** A virtual environment is a self-contained folder that keeps each project's libraries separate, so installing something for one project never breaks another. Full setup instructions (Mac/Linux and Windows) are in [`python-basics/README.md`](python-basics/README.md#before-you-run-anything-set-up-python-properly).
+
+Short version:
+
+```bash
+# Mac/Linux
+python3 -m venv venv
+source venv/bin/activate
+
+# Windows (Command Prompt)
+python -m venv venv
+venv\Scripts\activate.bat
+```
+
+Then install the common libraries used across tutorials:
 
 ```bash
 pip install requests pandas matplotlib beautifulsoup4
