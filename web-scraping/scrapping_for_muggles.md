@@ -5,15 +5,37 @@
 
 ---
 
+## Python Foundations — Quick Reference
+
+New to Python or just a bit rusty on any of the concepts below? Every term used in this session has a dedicated explanation in the [`../python-basics/`](../python-basics/) folder. Point students there before the session or use it as a reference when questions come up.
+
+| Concept used in this session | Where to learn it |
+|---|---|
+| Variables, `print()`, f-strings | [`01_intro.py`](../python-basics/01_intro.py) |
+| Strings, numbers, lists, **dictionaries**, booleans, **JSON** | [`02_data_types.py`](../python-basics/02_data_types.py) |
+| `for` loops, filtering, building result lists | [`03_loops.py`](../python-basics/03_loops.py) |
+| Writing and reusing functions | [`04_functions.py`](../python-basics/04_functions.py) |
+| Glossary: API, JSON, HTML, library, module, EDA, CSV… | [`README.md — Glossary`](../python-basics/README.md#glossary--technical-terms-explained) |
+| Setting up `venv` + `pip` on Mac/Linux and Windows | [`README.md — venv setup`](../python-basics/README.md#before-you-run-anything-set-up-python-properly) |
+
+---
+
 ## Part 1: The Hidden API Hunt (30 min)
 
 ### Key Concept
 Most modern websites don't render data from HTML — they fetch it from internal APIs as JSON. You can intercept these requests and skip HTML parsing entirely.
 
+> 🔤 **New to these terms?**
+> - **HTML** — the markup language every webpage is built with. Your browser reads it and turns it into the page you see. See the [glossary](../python-basics/README.md#glossary--technical-terms-explained).
+> - **API** — a way to ask a web server for data directly, without going through a browser. Like calling the kitchen directly instead of using the menu. See the [glossary](../python-basics/README.md#glossary--technical-terms-explained).
+> - **JSON** — the format APIs use to send data back. It looks *exactly* like a Python dictionary. See [`02_data_types.py`](../python-basics/02_data_types.py) — the Dictionaries section.
+
 ### Setup
 Students need:
 - Chrome or Edge browser
 - Python with `requests` and `json` (both pre-installed)
+
+> 📦 **What are libraries?** A library is pre-written code that someone else built and shared for free — you just `import` it and use it. `requests` lets Python make web requests; `json` lets Python read and write JSON data. New to libraries or `pip`? See the [glossary](../python-basics/README.md#glossary--technical-terms-explained) and the [venv setup guide](../python-basics/README.md#before-you-run-anything-set-up-python-properly).
 
 ### Live Demo — Target Websites
 
@@ -27,17 +49,20 @@ Students need:
 - Key point: many sites have public APIs you can just *ask* nicely.
 
 ```python
-import requests
-import json
+import requests   # library that lets Python fetch data from URLs — see ../python-basics/README.md
+import json       # library for parsing JSON into Python dicts/lists — see ../python-basics/02_data_types.py
 
 response = requests.get(
     "https://api.github.com/search/repositories",
     params={"q": "data analytics", "sort": "stars", "per_page": 10}
+    # params is a dictionary — Python key-value pairs — see ../python-basics/02_data_types.py
 )
 
-data = response.json()
+data = response.json()   # converts the JSON response into a Python dictionary
 
-for repo in data["items"]:
+for repo in data["items"]:   # loop through the list at key "items" — see ../python-basics/03_loops.py
+    # data["items"] — dictionary key access — see ../python-basics/02_data_types.py
+    # f"..." — f-string, embeds variable values in text — see ../python-basics/01_intro.py
     print(f"{repo['name']} — ⭐ {repo['stargazers_count']} — {repo['html_url']}")
 ```
 
@@ -53,12 +78,17 @@ for repo in data["items"]:
 5. Click on requests appearing — look at the **Response** tab
 6. Find the JSON payload — that's your data
 
+> 💡 **What does that JSON actually look like?** It's a nested structure of curly braces `{}` (dictionaries) and square brackets `[]` (lists) — identical to Python dictionaries and lists. If that's unfamiliar, work through [`02_data_types.py`](../python-basics/02_data_types.py) before this session.
+
 ```python
 # Once you find the hidden endpoint
 response = requests.get("https://dummyjson.com/products?limit=10")
-products = response.json()["products"]
+products = response.json()["products"]   # ["products"] gets the list at the "products" key
+                                         # see ../python-basics/02_data_types.py
 
-for p in products:
+for p in products:   # loop through each product dictionary — see ../python-basics/03_loops.py
+    # p['title'], p['price'], p['rating'] — dictionary key access
+    # f"..." — f-string — see ../python-basics/01_intro.py
     print(f"{p['title']} | ${p['price']} | Rating: {p['rating']}")
 ```
 
@@ -68,9 +98,11 @@ for p in products:
 
 ```python
 response = requests.get("https://api.quotable.io/quotes", params={"page": 1, "limit": 5})
+# params is a dictionary — see ../python-basics/02_data_types.py
 data = response.json()
 
-for quote in data["results"]:
+for quote in data["results"]:   # loop through a list — see ../python-basics/03_loops.py
+    # quote["content"] and quote["author"] — dictionary key access — see ../python-basics/02_data_types.py
     print(f'"{quote["content"]}" — {quote["author"]}')
 ```
 
@@ -84,6 +116,11 @@ for quote in data["results"]:
 ### Key Concept
 Playwright is faster, more reliable, auto-waits for elements (no `time.sleep`), and has a codegen tool that writes code by recording your clicks.
 
+> 🔤 **New to these terms?**
+> - **Library / package** — pre-written code you install and `import`. `playwright` is a library for controlling a real browser from Python. See the [glossary](../python-basics/README.md#glossary--technical-terms-explained).
+> - **`pip install`** — the command that downloads and installs Python libraries. Always run it inside an activated `venv`. See the [venv setup guide](../python-basics/README.md#before-you-run-anything-set-up-python-properly).
+> - **JavaScript** — a different programming language that runs *inside the browser* and builds page content dynamically. `requests` fetches a page's raw HTML before JS runs; Playwright launches a real browser so JS has time to execute first.
+
 ### Installation (have students run this at the start of session or during break)
 ```bash
 pip install playwright
@@ -94,8 +131,10 @@ playwright install chromium
 
 Target: `https://quotes.toscrape.com/js/` (this site requires JavaScript — BS4 can't handle it, Selenium can but painfully)
 
+> 📖 The code below uses `from ... import` to load part of a library, and a `for` loop to process each scraped element. Unfamiliar with either? See [`04_functions.py`](../python-basics/04_functions.py) for functions/imports context and [`03_loops.py`](../python-basics/03_loops.py) for loops.
+
 ```python
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright   # import one specific tool from the playwright library
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)  # headless=False so students can watch
@@ -105,9 +144,10 @@ with sync_playwright() as p:
     # Auto-waits for elements — no sleep needed
     quotes = page.query_selector_all(".quote")
 
-    for q in quotes:
+    for q in quotes:   # loop through each scraped element — see ../python-basics/03_loops.py
         text = q.query_selector(".text").inner_text()
         author = q.query_selector(".author").inner_text()
+        # f"..." — f-string, embeds variables in text — see ../python-basics/01_intro.py
         print(f"{text} — {author}")
 
     browser.close()
@@ -164,6 +204,13 @@ with sync_playwright() as p:
 ### Key Concept
 Instead of writing CSS selectors or XPath for messy pages, feed the raw HTML to an LLM and ask it to extract structured data. The AI *understands* the page like a human would.
 
+> 🔤 **New to these terms?**
+> - **CSS selectors** — patterns that target specific HTML elements, like `.price` or `h1.title`. They are how BS4 and Playwright find things on a page.
+> - **XPath** — an alternative way of navigating HTML/XML structure, e.g. `//table[@class='wikitable']`.
+> - **LLM** — "Large Language Model" — the AI behind tools like ChatGPT and Claude. Here we send it raw HTML and ask it to extract data in structured form.
+> - **HTML** — the markup code every webpage is built from. See the [glossary](../python-basics/README.md#glossary--technical-terms-explained).
+> - **Structured data** — data organised into a predictable shape (like rows and columns, or a list of dictionaries) rather than a wall of unformatted text.
+
 ### Setup
 Students need an API key for OpenAI or Anthropic (provide a shared key for the session if possible), or use the free tier.
 
@@ -181,17 +228,25 @@ pip install anthropic
 **Step 1: Grab the raw HTML (just the relevant section)**
 
 ```python
-import requests
-from bs4 import BeautifulSoup
+import requests                        # library for making web requests
+from bs4 import BeautifulSoup          # library for parsing HTML — "BS4" for short
 
 response = requests.get("https://en.wikipedia.org/wiki/List_of_largest_cities")
 soup = BeautifulSoup(response.text, "html.parser")
+# response.text is a string containing the full HTML of the page
+# BeautifulSoup parses it so we can search and navigate it
 
 # Grab just the first big table to keep tokens manageable
 table = soup.find("table", {"class": "wikitable"})
+# soup.find() searches for an HTML element matching the criteria
+# {"class": "wikitable"} is a dictionary of HTML attributes to match
+# see ../python-basics/02_data_types.py for dictionaries
 table_html = str(table)[:4000]  # Truncate to save tokens/cost
+# [:4000] is a list/string slice — takes the first 4000 characters
+# see ../python-basics/03_loops.py for slicing
 
 print(f"HTML length: {len(table_html)} characters")
+# f"..." — f-string — see ../python-basics/01_intro.py
 ```
 
 **Step 2: Send to Claude and ask for structured data**
@@ -224,11 +279,16 @@ print(message.content[0].text)
 **Step 3: Parse and use**
 
 ```python
-import json
+import json   # library for converting JSON text into Python objects — see ../python-basics/02_data_types.py
 
 cities = json.loads(message.content[0].text)
+# json.loads() converts a JSON-formatted string into a Python list of dictionaries
+# the result is exactly like the dictionaries you saw in 02_data_types.py
 
-for city in cities[:10]:
+for city in cities[:10]:   # [:10] takes only the first 10 items — slicing a list
+    # see ../python-basics/03_loops.py for loops and slicing
+    # city['city'], city['country'], city['population'] — dictionary key access
+    # see ../python-basics/02_data_types.py
     print(f"{city['city']}, {city['country']} — Pop: {city['population']}")
 ```
 
@@ -279,6 +339,7 @@ Pick a truly messy page — a local restaurant menu, a government notice board, 
 - Task: Extract the entire infobox (country details) as structured JSON
 - Catch: Infobox HTML is notoriously messy
 - Expected method: LLM-assisted (or creative BS4 if they're brave)
+- Not sure what JSON is? See [`02_data_types.py`](../python-basics/02_data_types.py) — Dictionaries section.
 
 ### Running the Competition
 - Share the URLs on screen or in a shared doc/chat
@@ -305,6 +366,8 @@ print(r.text)
 - Add delays between requests: `time.sleep(1)`
 - Set a proper User-Agent header:
 ```python
+# headers is a dictionary — Python key-value pairs — see ../python-basics/02_data_types.py
+# A "User-Agent" tells the server what kind of client is making the request
 headers = {"User-Agent": "atomcamp-student-project/1.0 (educational)"}
 response = requests.get(url, headers=headers)
 ```
@@ -327,6 +390,8 @@ response = requests.get(url, headers=headers)
 ---
 
 ## Quick Reference — All Commands in One Place
+
+> 📦 These `pip install` commands install libraries into your Python environment. Always run them inside an activated virtual environment (`venv`) so they don't affect other projects. See the [venv setup guide](../python-basics/README.md#before-you-run-anything-set-up-python-properly) if you haven't set one up yet.
 
 ```bash
 # Installation
