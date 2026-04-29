@@ -6,13 +6,14 @@
 
 ## Who is this for?
 
-This repo is for **muggles** — people who haven't discovered their data powers yet.
+This repo is for **muggles** — people who haven't discovered their data powers yet — and for the trainers and advanced self-learners who want to help them get there.
 
 More specifically, you'll feel right at home here if you are:
 
 - **A complete beginner** who has never written a line of code and finds words like "repository" mildly terrifying (don't worry, you'll be fine).
 - **A spreadsheet wizard** who lives in Excel or Google Sheets and suspects there might be a better way to do *some* of this stuff.
 - **A curious non-coder** — maybe you're in ops, marketing, finance, or HR — who keeps getting handed datasets and wants to actually *do* something with them.
+- **A trainer or advanced self-learner** looking for structured, well-commented material you can use, adapt, or build on.
 
 No CS degree required. No prior coding experience required. Just a willingness to try things, break things, and try again.
 
@@ -71,7 +72,7 @@ If a tutorial needs something extra, the script will tell you at the top.
 
 ## Contributing
 
-Are you an **atomcamp trainer or TA**? Great — contributions are welcome.
+Are you a **trainer or TA**? Great — contributions are welcome.
 
 The rules are simple:
 

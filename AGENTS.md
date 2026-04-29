@@ -6,7 +6,7 @@ Instructions for AI coding agents (Codex, Cursor, Copilot, Claude, or any other 
 
 ## Context
 
-This is **tutorials** — an educational repository maintained by atomcamp trainers for their Data Analytics Bootcamp. The target audience is **muggles**: people with basic computer literacy (they can open a browser and download a file) but no programming background whatsoever.
+This is **tutorials** — an educational repository for a Data Analytics Bootcamp. The target audience is **muggles**: people with basic computer literacy (they can open a browser and download a file) but no programming background whatsoever.
 
 **Clarity over sophistication, always.** A clean, readable 20-line script beats a clever 5-line one every single time in this repo.
 

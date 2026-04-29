@@ -6,7 +6,7 @@ Instructions for Claude (via Claude Code, the API, or any Anthropic-powered tool
 
 ## About this repo
 
-This is **tutorials** — a collection of hands-on data tutorials run by atomcamp trainers for their Data Analytics Bootcamp. The audience is non-technical to mildly technical learners we affectionately call **muggles**: smart people who just haven't been exposed to this stuff yet.
+This is **tutorials** — a collection of hands-on data tutorials for a Data Analytics Bootcamp. The audience is non-technical to mildly technical learners we affectionately call **muggles**: smart people who just haven't been exposed to this stuff yet.
 
 Your job when contributing here is not to show off. It's to make things clear.
 
@@ -70,4 +70,4 @@ topic-name/
 - **Don't use `lambda`, list comprehensions, or decorators without explaining them first.** These are intermediate Python features that look like magic to beginners.
 - **Don't skip error handling in scripts that make network calls.** Show `try/except` blocks — and explain what they're for.
 - **Don't require paid API keys without flagging the cost.** If an example uses OpenAI or Anthropic, clearly mark it with a `# NOTE: this requires a paid API key` comment and suggest a free alternative where possible.
-- **Don't reference internal atomcamp systems**, internal URLs, Slack channels, or anything that an external learner wouldn't have access to.
+- **Don't reference internal or organisation-specific systems**, internal URLs, Slack channels, or anything that an external learner wouldn't have access to.
